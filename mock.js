@@ -1,5 +1,4 @@
-var container = document.getElementById('cardZone');
-console.log(container);
+
 
 function loadImages(numImages = 10){
     // let i=0;
@@ -12,11 +11,15 @@ function loadImages(numImages = 10){
     //  container.appendChild(img)
     //  })
     //  i++;
-    // }   
+    // }
+    container = document.getElementById('cardZone');
     console.log(container)
+    const img = document.createElement('img')
+    img.src = './food.jpg'
+    container.appendChild(img)
    }
  
- loadImages();
+ //loadImages();
 
  window.addEventListener('scroll',()=>{
     console.log(window.scrollY) //scrolled from top
