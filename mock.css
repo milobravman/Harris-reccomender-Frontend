@@ -25,3 +25,10 @@ body{
 img{
     max-inline-size: -webkit-fill-available;
 }
+.like{
+    transform: rotate(180deg);
+    width: 10%
+}
+.dis{
+    width: 10%
+}

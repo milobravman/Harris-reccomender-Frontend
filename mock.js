@@ -18,7 +18,7 @@ function loadImages(numImages = 10){
     //creates img htlm element
     const img = document.createElement('img')
     img.src = './food.jpg'
-    img.sizes = 'small'
+    
 
     //creates title html element
     const title = document.createElement('h4')
