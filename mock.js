@@ -1,4 +1,6 @@
 
+var food_data = [];
+var food_counter = 0;
 
 function loadImages(numImages = 10){
     // let i=0;
@@ -22,7 +24,14 @@ function loadImages(numImages = 10){
 
     //creates title html element
     const title = document.createElement('h4')
-    const node = document.createTextNode("[Food] Name")
+    var node;
+    if (food_counter < 9 ){
+      var name = food_data[food_counter].title
+      node = document.createTextNode(name)
+      food_counter++
+    }else {
+       node = document.createTextNode("[Food] Name")
+    }
     title.appendChild(node)
 
     //creates div
@@ -46,3 +55,18 @@ function loadImages(numImages = 10){
     loadImages();
     }
 })
+
+function fetchPosts() {
+  fetch("http://localhost:3000/posts")
+  .then(res => res.json())
+  .then(posts => {
+      posts.forEach(post => {
+          food_data.push(post);
+      })
+  })
+}
+
+document.addEventListener("DOMContentLoaded", ()=> {
+  fetchPosts()
+})
+
