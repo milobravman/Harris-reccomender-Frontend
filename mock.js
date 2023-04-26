@@ -2,9 +2,9 @@
 var food_data = [];
 var users_data = [];
 var food_counter = 0;
+let cookieText;
 
 function loadImages(numImages = 10){
-    console.log (food_data)
     container = document.getElementById('cardZone')
     
 
@@ -59,19 +59,14 @@ function loadImages(numImages = 10){
     like.onclick = function() 
     {
       like.style.color = 'red'
-      //console.log("clicked like")
     }
     dislike.onclick = function() 
     {
       dislike.style.color = 'blue'
-      //console.log("clicked like")
     }
    }
- //loadImages();
 
  window.addEventListener('scroll',()=>{
-    //console.log(window.scrollY) //scrolled from top
-    //console.log(window.innerHeight) //visible part of screen
     if(window.scrollY + window.innerHeight >= 
     document.documentElement.scrollHeight){
     loadImages();
@@ -104,20 +99,16 @@ function createUser() {
   
 }
 
-function createUserCookie() {
+
+// please not setting cookies only works when using live server
+
+function setCookie(cname, cvalue, exdays) {
   const d = new Date();
   d.setTime(d.getTime() + (exdays*24*60*60*1000));
   let expires = "expires="+ d.toUTCString();
-  document.cookie = "userId =" + users_data.length + ";" + expires + ";path=/";
-  console.log("createUserCookie function fired");
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  console.log("setCookie function fired");
 }
-
-// function setCookie(cname, cvalue, exdays) {
-//   const d = new Date();
-//   d.setTime(d.getTime() + (exdays*24*60*60*1000));
-//   let expires = "expires="+ d.toUTCString();
-//   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-// }
 
 
 document.addEventListener("DOMContentLoaded", ()=> {
@@ -132,7 +123,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
   createUser();
   setTimeout(() => {
-    createUserCookie();
+    setCookie("userId", users_data.length, 7);
   }, 1000);
 })
 
