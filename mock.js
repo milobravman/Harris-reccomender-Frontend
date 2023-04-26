@@ -1,21 +1,10 @@
 
 var food_data = [];
+var users_data = [];
 var food_counter = 0;
 
 function loadImages(numImages = 10){
-  console.log (food_data)
-    //food_data = await fetchPosts(food_data);
-    // let i=0;
-    //  while(i < numImages){
-    //  fetch('https://dog.ceo/api/breeds/image/random')
-    //  .then(response=>response.json())
-    //  .then(data=>{
-    //  const img =  document.createElement('img');
-    //  img.src = `${data.message}`
-    //  container.appendChild(img)
-    //  })
-    //  i++;
-    // }
+    console.log (food_data)
     container = document.getElementById('cardZone')
     
 
@@ -27,9 +16,15 @@ function loadImages(numImages = 10){
     //creates title html element
     const title = document.createElement('h4')
     var node;
+    
+    const div = document.createElement('div')
+    div.className = 'media'
+
+
     if (food_counter < 120 ){ // this way I am not loading to many new images at once
       var name = food_data[food_counter].title
       node = document.createTextNode(name)
+      div.id = food_data[food_counter].id;
       food_counter++
     }else {
        node = document.createTextNode("[Food] Name")
@@ -37,8 +32,6 @@ function loadImages(numImages = 10){
     title.appendChild(node)
 
     //creates div
-    const div = document.createElement('div')
-    div.className = 'media'
 
     //creates like icon
     const like = document.createElement('button')
@@ -73,12 +66,7 @@ function loadImages(numImages = 10){
       dislike.style.color = 'blue'
       //console.log("clicked like")
     }
-
-
    }
-   
- 
-
  //loadImages();
 
  window.addEventListener('scroll',()=>{
@@ -102,16 +90,49 @@ function fetchPosts() {
 
 }
 
+// this function only exists to calculate the id of this user. a better version of this function would be a custom fethch that return the length of the users array and then this is not dont on the front end
+
+function createUser() {
+
+  fetch("http://localhost:3000/users")
+  .then(res => res.json())
+  .then(users => {
+      users.forEach(user => {
+          users_data.push(user);
+      })
+  })
+  
+}
+
+function createUserCookie() {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
+  document.cookie = "userId =" + users_data.length + ";" + expires + ";path=/";
+  console.log("createUserCookie function fired");
+}
+
+// function setCookie(cname, cvalue, exdays) {
+//   const d = new Date();
+//   d.setTime(d.getTime() + (exdays*24*60*60*1000));
+//   let expires = "expires="+ d.toUTCString();
+//   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+// }
 
 
 document.addEventListener("DOMContentLoaded", ()=> {
   fetchPosts();
+
   setTimeout(() => {
     loadImages();
     loadImages();
     loadImages();
     loadImages();
   }, 1000);
-  //loadImages();
+
+  createUser();
+  setTimeout(() => {
+    createUserCookie();
+  }, 1000);
 })
 
