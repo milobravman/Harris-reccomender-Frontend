@@ -100,7 +100,7 @@ function createUser() {
 }
 
 
-// please not setting cookies only works when using live server
+// setting cookies only works when using live server
 
 function setCookie(cname, cvalue, exdays) {
   const d = new Date();
@@ -110,6 +110,30 @@ function setCookie(cname, cvalue, exdays) {
   console.log("setCookie function fired");
 }
 
+function getCookie(cname) {
+  let name = cname + "=";
+  let ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie() {
+  let user = getCookie("userId");
+  if (user != "") {
+    // get user like history or data
+    
+  } else {
+      setCookie("userId", users_data.length, 7);
+  }
+}
 
 document.addEventListener("DOMContentLoaded", ()=> {
   fetchPosts();
@@ -123,7 +147,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
   createUser();
   setTimeout(() => {
-    setCookie("userId", users_data.length, 7);
+    checkCookie();
   }, 1000);
 })
 
