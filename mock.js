@@ -24,7 +24,7 @@ function loadImages(numImages = 10){
     if (food_counter < 120 ){ // this way I am not loading to many new images at once
       var name = food_data[food_counter].title
       node = document.createTextNode(name)
-      div.id = food_data[food_counter].id;
+      div.id = food_data[food_counter].id
       food_counter++
     }else {
        node = document.createTextNode("[Food] Name")
@@ -35,6 +35,7 @@ function loadImages(numImages = 10){
 
     //creates like icon
     const like = document.createElement('button')
+    like.id = food_data[food_counter].id -1;
 //     <span class="material-symbols-outlined">
 // thumb_up
 // </span>
@@ -59,10 +60,23 @@ function loadImages(numImages = 10){
     like.onclick = function() 
     {
       like.style.color = 'red'
+      dislike.style.color = ''
+      console.log(like.id)
+      // Post request between like that belongs to this food and this user
+
+      // also needs to be able to chech if there is a dislike between this user and this food and if there is delete it
+      // postLike()
+      // checkDislike()
+
     }
     dislike.onclick = function() 
     {
       dislike.style.color = 'blue'
+      like.style.color = ''
+
+      // reverse of the above funtion. needs to post a dislike between this user and this food and also check if there is already a like joining them and delete that
+        //postLike()
+        //checkDislike() 
     }
    }
 
@@ -87,7 +101,7 @@ function fetchPosts() {
 
 // this function only exists to calculate the id of this user. a better version of this function would be a custom fethch that return the length of the users array and then this is not dont on the front end
 
-function createUser() {
+function getUserData() {
 
   fetch("http://localhost:3000/users")
   .then(res => res.json())
@@ -99,6 +113,16 @@ function createUser() {
   
 }
 
+function createUser() {
+
+  fetch("http://localhost:3000/users", {
+    method: "post",
+    mode: 'cors',
+    headers:{'Content-Type': 'application/json'},
+    body: ""
+  })
+  
+}
 
 // setting cookies only works when using live server
 
@@ -108,6 +132,7 @@ function setCookie(cname, cvalue, exdays) {
   let expires = "expires="+ d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   console.log("setCookie function fired");
+
 }
 
 function getCookie(cname) {
@@ -131,7 +156,9 @@ function checkCookie() {
     // get user like history or data
     
   } else {
-      setCookie("userId", users_data.length, 7);
+      setCookie("userId", users_data.length+1, 7);
+      console.log(users_data.length)
+      createUser();
   }
 }
 
@@ -145,7 +172,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
     loadImages();
   }, 1000);
 
-  createUser();
+  getUserData();
   setTimeout(() => {
     checkCookie();
   }, 1000);
