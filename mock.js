@@ -1,28 +1,36 @@
 
-var food_data = [];
-var users_data = [];
-var food_counter = 0;
+let food_data = [];
+let users_data = [];
+let food_counter = 0;
 let cookieText;
+let image_counter = 0;
+const temparay_images = ['./food.jpg', './food1.jpg', './food2.jpg', './food3.jpg', './food4.jpg']
 
-function loadImages(numImages = 10){
+
+function loadImages(){
     container = document.getElementById('cardZone')
     
 
     //creates img htlm element
     const img = document.createElement('img')
-    img.src = './food.jpg'
-    
+
+    let image_link = temparay_images[image_counter]
+    console.log(image_link)
+    console.log(image_counter)
+    img.src = image_link;
+    image_counter++
+    if (image_counter == 5) {image_counter = 0}
 
     //creates title html element
     const title = document.createElement('h4')
-    var node;
+    let node;
     
     const div = document.createElement('div')
     div.className = 'media'
 
 
     if (food_counter < 120 ){ // this way I am not loading to many new images at once
-      var name = food_data[food_counter].title
+      let name = food_data[food_counter].title
       node = document.createTextNode(name)
       div.id = food_data[food_counter].id
       food_counter++
